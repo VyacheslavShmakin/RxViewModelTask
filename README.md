@@ -1,3 +1,7 @@
+[ ![Download](https://api.bintray.com/packages/vshmakin/maven/rx-vmt/images/download.svg) ](https://bintray.com/vshmakin/maven/rx-vmt/_latestVersion)
+[![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
+[![Licence](https://img.shields.io/badge/Licence-Apache2-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+
 # RxViewModelTask
 Simplified task long task execution by using Android architecture [ViewModel](https://developer.android.com/reference/android/arch/lifecycle/ViewModel) and [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) with [RxAndroid](https://github.com/ReactiveX/RxAndroid).  
 You can simply implement Observable/Flowable/Maybe/Single/Completable objects and pass them to RxViewModelTask. It will be executed with respect to Android Lifecycle)
