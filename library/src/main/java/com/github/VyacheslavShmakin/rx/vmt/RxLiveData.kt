@@ -1,8 +1,8 @@
-package ru.shmakinv.rxviewmodeltask
+package com.github.VyacheslavShmakin.rx.vmt
 
 import android.arch.lifecycle.MutableLiveData
+import io.reactivex.*
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import java.util.*
 
@@ -27,17 +27,38 @@ internal class RxLiveData<T> : MutableLiveData<RxResult<T>> {
                 { collectOrPublish(RxResult.onComplete(), collectAll) })
     }
 
+    constructor(single: Single<T>) : super() {
+        disposable = single.subscribe(
+                { result -> value = RxResult.onNext(result) },
+                { t -> value = RxResult.onError(t) })
+    }
+
+    constructor(completable: Completable) : super() {
+        disposable = completable.subscribe(
+                { value = RxResult.onComplete() },
+                { t -> value = RxResult.onError(t) })
+    }
+
+    constructor(flowable: Flowable<T>, collectAll: Boolean) : super() {
+        this.collectAll = collectAll
+        disposable = flowable.subscribe(
+                { result -> collectOrPublish(RxResult.onNext(result), collectAll) },
+                { t -> collectOrPublish(RxResult.onError(t), collectAll) },
+                { collectOrPublish(RxResult.onComplete(), collectAll) })
+    }
+
+    constructor(maybe: Maybe<T>) : super() {
+        disposable = maybe.subscribe(
+                { result -> value = RxResult.onNext(result) },
+                { t -> value = RxResult.onError(t) },
+                { value = RxResult.onComplete() })
+    }
+
     private fun collectOrPublish(result: RxResult<T>, collectAll: Boolean) {
-        if (!isActive && collectAll) {
+        if ((!isActive || collectedItems.isNotEmpty()) && collectAll) {
             collectedItems.add(result)
         }
         value = result
-    }
-
-    constructor(single: Single<T>) : super() {
-        disposable = single.subscribe(
-                { result -> setValue(RxResult.onNext(result)) },
-                { t -> setValue(RxResult.onError(t)) })
     }
 
     fun stopCalculation() {

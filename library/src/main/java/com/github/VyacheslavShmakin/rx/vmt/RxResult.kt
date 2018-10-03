@@ -1,4 +1,4 @@
-package ru.shmakinv.rxviewmodeltask
+package com.github.VyacheslavShmakin.rx.vmt
 
 /**
  * RxResult
