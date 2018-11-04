@@ -1,6 +1,7 @@
 package com.github.VyacheslavShmakin.rx.vmt
 
-import android.arch.lifecycle.ViewModel
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
 import io.reactivex.*
 
 
@@ -10,7 +11,7 @@ import io.reactivex.*
  * @author Vyacheslav Shmakin
  * @version 30.09.2018
  */
-internal class RxViewModel<T> : ViewModel() {
+open class RxViewModel<T>(application: Application) : AndroidViewModel(application) {
 
     var liveData: RxLiveData<T>? = null
         private set

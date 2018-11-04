@@ -6,19 +6,22 @@ package com.github.VyacheslavShmakin.rx.vmt
  * @author Vyacheslav Shmakin
  * @version 30.09.2018
  */
-internal class RxResult<T> private constructor(
+open class RxResult<T> private constructor(
         val result: T?,
         val error: Throwable?) {
-    companion object {
 
+    companion object {
+        @JvmStatic
         fun <T> onComplete(): RxResult<T> {
             return RxResult(null, null)
         }
 
+        @JvmStatic
         fun <T> onNext(result: T?): RxResult<T> {
             return RxResult(result, null)
         }
 
+        @JvmStatic
         fun <T> onError(error: Throwable?): RxResult<T> {
             return RxResult(null, error)
         }

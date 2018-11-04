@@ -17,10 +17,10 @@ import java.lang.ref.WeakReference;
  * @author Vyacheslav Shmakin
  * @version 02.10.2018
  */
-public class RxBaseTask<T> {
+public class RxBaseTask {
 
     private final WeakReference<ViewModelStoreOwner> mRef;
-    protected final RxViewModel<T> mModel;
+    protected final RxViewModel mModel;
 
     public RxBaseTask(@NonNull ViewModelStoreOwner owner, @NonNull String taskId) {
         mRef = new WeakReference<>(owner);
@@ -29,15 +29,15 @@ public class RxBaseTask<T> {
 
     @SuppressWarnings("unchecked")
     @NonNull
-    private RxViewModel<T> createViewModel(@NonNull String taskId) {
+    private RxViewModel createViewModel(@NonNull String taskId) {
         if (mRef == null || mRef.get() == null) {
             throw new NullPointerException("ViewModelStoreOwner should be defined!");
         } else if (TextUtils.isEmpty(taskId)) {
             throw new IllegalStateException("TaskId should be defined as non-null and non-empty value!");
         } else if (mRef.get() instanceof Fragment) {
-            return (RxViewModel<T>) ViewModelProviders.of((Fragment) mRef.get()).get(taskId, RxViewModel.class);
+            return ViewModelProviders.of((Fragment) mRef.get()).get(taskId, RxViewModel.class);
         } else if (mRef.get() instanceof FragmentActivity) {
-            return (RxViewModel<T>) ViewModelProviders.of((FragmentActivity) mRef.get()).get(taskId, RxViewModel.class);
+            return ViewModelProviders.of((FragmentActivity) mRef.get()).get(taskId, RxViewModel.class);
         }
         throw new IllegalStateException("Owner should be defined as Fragment or FragmentActivity");
     }

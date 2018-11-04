@@ -12,7 +12,7 @@ import java.util.*
  * @author Vyacheslav Shmakin
  * @version 30.09.2018
  */
-internal class RxLiveData<T> : MutableLiveData<RxResult<T>> {
+class RxLiveData<T> : MutableLiveData<RxResult<T>> {
 
     private val collectedItems = ArrayDeque<RxResult<T>>()
     private var disposable: Disposable? = null
