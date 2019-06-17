@@ -12,7 +12,7 @@ Download
 Gradle:
 
 ```groovy
-implementation 'com.github.VyacheslavShmakin:rx-vmt:1.2.0'
+implementation 'com.github.VyacheslavShmakin:rx-vmt:1.2.1'
 ```
 
 Maven:
@@ -21,7 +21,7 @@ Maven:
 <dependency>
     <groupId>com.github.VyacheslavShmakin</groupId>
     <artifactId>rx-vmt</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <type>aar</type>
 </dependency>
 ```
@@ -48,7 +48,7 @@ Imported libraries with initial version
 --------
 ```groovy
 implementation 'com.android.support:appcompat-v7:28.0.0'
-implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
+implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
 implementation 'android.arch.lifecycle:extensions:1.1.1'
 ```

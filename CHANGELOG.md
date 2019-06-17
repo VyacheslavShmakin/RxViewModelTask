@@ -1,10 +1,17 @@
 Change Log
 ==========
+## Version 1.2.1
+
+_2019-06-17_
+
+* Fixed async operation execution
+
+
 ## Version 1.2.0
 
 _2018-11-04_
 
-* 
+* Removed Java implementation
 
 
 ## Version 1.1.0

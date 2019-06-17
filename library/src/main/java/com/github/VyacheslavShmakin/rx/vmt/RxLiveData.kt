@@ -29,14 +29,14 @@ class RxLiveData<T> : MutableLiveData<RxResult<T>> {
 
     constructor(single: Single<T>) : super() {
         disposable = single.subscribe(
-                { result -> value = RxResult.onNext(result) },
-                { t -> value = RxResult.onError(t) })
+                { result -> postValue(RxResult.onNext(result)) },
+                { t -> postValue(RxResult.onError(t)) })
     }
 
     constructor(completable: Completable) : super() {
         disposable = completable.subscribe(
                 { value = RxResult.onComplete() },
-                { t -> value = RxResult.onError(t) })
+                { t -> postValue(RxResult.onError(t)) })
     }
 
     constructor(flowable: Flowable<T>, collectAll: Boolean) : super() {
@@ -49,16 +49,16 @@ class RxLiveData<T> : MutableLiveData<RxResult<T>> {
 
     constructor(maybe: Maybe<T>) : super() {
         disposable = maybe.subscribe(
-                { result -> value = RxResult.onNext(result) },
-                { t -> value = RxResult.onError(t) },
-                { value = RxResult.onComplete() })
+                { result -> postValue(RxResult.onNext(result)) },
+                { t -> postValue(RxResult.onError(t)) },
+                { postValue(RxResult.onComplete()) })
     }
 
     private fun collectOrPublish(result: RxResult<T>, collectAll: Boolean) {
         if ((!isActive || collectedItems.isNotEmpty()) && collectAll) {
             collectedItems.add(result)
         }
-        value = result
+        postValue(result)
     }
 
     fun stopCalculation() {
@@ -83,7 +83,7 @@ class RxLiveData<T> : MutableLiveData<RxResult<T>> {
         if (collectAll && collectedItems.isNotEmpty()) {
             var item = collectedItems.poll()
             while (item != null) {
-                value = item
+                postValue(item)
                 item = collectedItems.poll()
             }
         }
