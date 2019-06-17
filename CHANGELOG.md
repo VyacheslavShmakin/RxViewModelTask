@@ -1,5 +1,12 @@
 Change Log
 ==========
+## Version 1.2.2
+
+_2019-06-17_
+
+* Fixed main task package
+
+
 ## Version 1.2.1
 
 _2019-06-17_

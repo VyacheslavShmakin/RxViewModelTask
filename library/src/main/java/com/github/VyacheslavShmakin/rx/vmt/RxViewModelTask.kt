@@ -1,9 +1,7 @@
-package ru.shmakinv.androidarchitecturetest.util.observable
+package com.github.VyacheslavShmakin.rx.vmt
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.ViewModelStoreOwner
-import com.github.VyacheslavShmakin.rx.vmt.RxBaseTask
-import com.github.VyacheslavShmakin.rx.vmt.RxResult
 import io.reactivex.*
 
 /**
