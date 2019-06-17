@@ -12,7 +12,7 @@ Download
 Gradle:
 
 ```groovy
-implementation 'com.github.VyacheslavShmakin:rx-vmt:1.2.1'
+implementation 'com.github.VyacheslavShmakin:rx-vmt:1.2.2'
 ```
 
 Maven:
@@ -21,7 +21,7 @@ Maven:
 <dependency>
     <groupId>com.github.VyacheslavShmakin</groupId>
     <artifactId>rx-vmt</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <type>aar</type>
 </dependency>
 ```
