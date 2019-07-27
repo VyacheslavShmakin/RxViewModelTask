@@ -12,7 +12,7 @@ Download
 Gradle:
 
 ```groovy
-implementation 'com.github.VyacheslavShmakin:rx-vmt:1.2.2'
+implementation 'com.github.VyacheslavShmakin:rx-vmt:1.3.0'
 ```
 
 Maven:
@@ -21,7 +21,7 @@ Maven:
 <dependency>
     <groupId>com.github.VyacheslavShmakin</groupId>
     <artifactId>rx-vmt</artifactId>
-    <version>1.2.2</version>
+    <version>1.3.0</version>
     <type>aar</type>
 </dependency>
 ```
@@ -36,6 +36,8 @@ RxViewModelTask.create(this, "Unique String key in Fragment/FragmentActivity")
 //.init(maybe, maybeObserver)
 //.init(completable, completableObserver)
 // You're able to use "restart" method also
+// To stop running task use "stop" method
+  .stop()
 ```
 - **init** will execute Observable/Flowable/Maybe/Single/Completable object only once.
 Even if you call this multiple times the last callback method will be called.
@@ -47,8 +49,8 @@ Please be careful by using this option to avoid UI freezes when you passing a lo
 Imported libraries with initial version
 --------
 ```groovy
-implementation 'com.android.support:appcompat-v7:28.0.0'
+implementation 'androidx.appcompat:appcompat:1.0.2'
 implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
-implementation 'android.arch.lifecycle:extensions:1.1.1'
+implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
+implementation 'android.arch.lifecycle:extensions:2.0.0'
 ```

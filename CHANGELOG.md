@@ -1,5 +1,14 @@
 Change Log
 ==========
+## Version 1.3.0
+
+_2019-07-27_
+
+* Migrated to AndroidX;
+* Rx observers callbacks were replaced to Kotlin functions;
+* ViewModel stop calculations action implemented;
+
+
 ## Version 1.2.2
 
 _2019-06-17_

@@ -1,6 +1,6 @@
 package com.github.VyacheslavShmakin.rx.vmt
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.*
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -10,7 +10,7 @@ import java.util.*
  * RxLiveData
  *
  * @author Vyacheslav Shmakin
- * @version 30.09.2018
+ * @version 26.07.2019
  */
 class RxLiveData<T> : MutableLiveData<RxResult<T>> {
 

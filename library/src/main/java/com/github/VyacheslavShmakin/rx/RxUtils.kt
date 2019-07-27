@@ -3,8 +3,6 @@ package com.github.VyacheslavShmakin.rx
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 
 
@@ -12,7 +10,7 @@ import io.reactivex.schedulers.Schedulers
  *
  * RxUtils
  * @author Vyacheslav Shmakin
- * @version 24.04.2018
+ * @version 27.07.2018
  */
 class RxUtils {
     companion object {
@@ -61,9 +59,9 @@ class RxUtils {
         @JvmOverloads
         @JvmStatic
         fun <T> wrap(
-                onNext: Consumer<T>?,
-                onError: Consumer<Throwable>? = null,
-                onComplete: Action? = null): Observer<T> {
+                onNext: (T) -> Unit,
+                onError: ((Throwable?) -> Unit)? = null,
+                onComplete: (() -> Unit)? = null): Observer<T> {
 
             return object : Observer<T> {
                 override fun onSubscribe(d: Disposable) {
@@ -71,15 +69,15 @@ class RxUtils {
                 }
 
                 override fun onNext(t: T) {
-                    onNext?.accept(t)
+                    onNext.invoke(t)
                 }
 
                 override fun onError(e: Throwable) {
-                    onError?.accept(e)
+                    onError?.invoke(e)
                 }
 
                 override fun onComplete() {
-                    onComplete?.run()
+                    onComplete?.invoke()
                 }
             }
         }
@@ -87,12 +85,12 @@ class RxUtils {
         @JvmOverloads
         @JvmStatic
         fun <T> wrapSingle(
-                onSuccess: Consumer<T>,
-                onError: Consumer<Throwable>? = null): SingleObserver<T> {
+                onSuccess: (T) -> Unit,
+                onError: ((Throwable) -> Unit)? = null): SingleObserver<T> {
 
             return object : SingleObserver<T> {
                 override fun onSuccess(t: T) {
-                    onSuccess.accept(t)
+                    onSuccess.invoke(t)
                 }
 
                 override fun onSubscribe(d: Disposable) {
@@ -100,7 +98,7 @@ class RxUtils {
                 }
 
                 override fun onError(e: Throwable) {
-                    onError?.accept(e)
+                    onError?.invoke(e)
                 }
             }
         }
@@ -108,17 +106,17 @@ class RxUtils {
         @JvmOverloads
         @JvmStatic
         fun <T> wrapMaybe(
-                onSuccess: Consumer<T>?,
-                onError: Consumer<Throwable>? = null,
-                onComplete: Action? = null): MaybeObserver<T> {
+                onSuccess: (T) -> Unit,
+                onError: ((Throwable) -> Unit)? = null,
+                onComplete: (() -> Unit)? = null): MaybeObserver<T> {
 
             return object : MaybeObserver<T> {
                 override fun onComplete() {
-                    onComplete?.run()
+                    onComplete?.invoke()
                 }
 
                 override fun onSuccess(t: T) {
-                    onSuccess?.accept(t)
+                    onSuccess.invoke(t)
                 }
 
                 override fun onSubscribe(d: Disposable) {
@@ -126,7 +124,7 @@ class RxUtils {
                 }
 
                 override fun onError(e: Throwable) {
-                    onError?.accept(e)
+                    onError?.invoke(e)
                 }
             }
         }
@@ -134,12 +132,12 @@ class RxUtils {
         @JvmOverloads
         @JvmStatic
         fun wrapCompletable(
-                onComplete: Action,
-                onError: Consumer<Throwable>? = null): CompletableObserver {
+                onComplete: () -> Unit,
+                onError: ((Throwable) -> Unit)? = null): CompletableObserver {
 
             return object : CompletableObserver {
                 override fun onComplete() {
-                    onComplete.run()
+                    onComplete.invoke()
                 }
 
                 override fun onSubscribe(d: Disposable) {
@@ -147,7 +145,7 @@ class RxUtils {
                 }
 
                 override fun onError(e: Throwable) {
-                    onError?.accept(e)
+                    onError?.invoke(e)
                 }
             }
         }

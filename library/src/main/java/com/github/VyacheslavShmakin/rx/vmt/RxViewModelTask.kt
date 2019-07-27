@@ -1,16 +1,16 @@
 package com.github.VyacheslavShmakin.rx.vmt
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelStoreOwner
 import io.reactivex.*
 
 /**
  * RxViewModelTask
  *
  * @author Vyacheslav Shmakin
- * @version 03.10.2018
+ * @version 27.07.2019
  */
-open class RxViewModelTask private constructor(
+class RxViewModelTask private constructor(
         owner: ViewModelStoreOwner,
         id: String) : RxBaseTask(owner, id) {
 
@@ -29,8 +29,8 @@ open class RxViewModelTask private constructor(
      * Please be careful if you wanna collect a lot of data to avoid UI freezes. Recommended to disable this option
      */
     @JvmOverloads
-    fun <T> init(observable: Observable<T>, observer: Observer<T>, collectAll: Boolean = false) {
-        mModel.init(observable, collectAll)
+    fun <T : Any> init(observable: Observable<T>, observer: Observer<T>, collectAll: Boolean = false) {
+        model.init(observable, collectAll)
         observeLiveData(lifeCycleOwner, observer)
     }
 
@@ -39,48 +39,46 @@ open class RxViewModelTask private constructor(
      * Please be careful if you wanna collect a lot of data to avoid UI freezes. Recommended to disable this option
      */
     @JvmOverloads
-    fun <T> restart(observable: Observable<T>, observer: Observer<T>, collectAll: Boolean = false) {
-        mModel.restart(observable, collectAll)
+    fun <T : Any> restart(observable: Observable<T>, observer: Observer<T>, collectAll: Boolean = false) {
+        model.restart(observable, collectAll)
         observeLiveData(lifeCycleOwner, observer)
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun <T> observeLiveData(owner: LifecycleOwner?, observer: Observer<T>) {
-        if (owner == null) {
-            return
+        owner?.let { own ->
+            model.liveData?.observe(own, androidx.lifecycle.Observer {
+                when {
+                    it!!.error != null -> observer.onError(it.error!!)
+                    it.result != null -> observer.onNext(it.result as T)
+                    else -> observer.onComplete()
+                }
+            })
         }
-
-        mModel.liveData!!.observe(owner, android.arch.lifecycle.Observer<RxResult<T>> {
-            when {
-                it!!.error != null -> observer.onError(it.error!!)
-                it.result != null -> observer.onNext(it.result)
-                else -> observer.onComplete()
-            }
-        })
     }
     /* Observable region end*/
 
     /* Single region start*/
-    fun <T> init(single: Single<T>, observer: SingleObserver<T>) {
-        mModel.init(single)
+    fun <T : Any> init(single: Single<T>, observer: SingleObserver<T>) {
+        model.init(single)
         observeLiveData(lifeCycleOwner, observer)
     }
 
-    fun <T> restart(single: Single<T>, observer: SingleObserver<T>) {
-        mModel.restart(single)
+    fun <T : Any> restart(single: Single<T>, observer: SingleObserver<T>) {
+        model.restart(single)
         observeLiveData(lifeCycleOwner, observer)
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun <T> observeLiveData(owner: LifecycleOwner?, observer: SingleObserver<T>) {
-        if (owner == null) {
-            return
+        owner?.let { own ->
+            model.liveData?.observe(own, androidx.lifecycle.Observer {
+                when {
+                    it!!.error != null -> observer.onError(it.error!!)
+                    it.result != null -> observer.onSuccess(it.result as T)
+                }
+            })
         }
-
-        mModel.liveData!!.observe(owner, android.arch.lifecycle.Observer<RxResult<T>> {
-            when {
-                it!!.error != null -> observer.onError(it.error!!)
-                it.result != null -> observer.onSuccess(it.result)
-            }
-        })
     }
     /* Single region end*/
 
@@ -90,8 +88,8 @@ open class RxViewModelTask private constructor(
      * Please be careful if you wanna collect a lot of data to avoid UI freezes. Recommended to disable this option
      */
     @JvmOverloads
-    fun <T> init(flowable: Flowable<T>, observer: Observer<T>, collectAll: Boolean = false) {
-        mModel.init(flowable, collectAll)
+    fun <T : Any> init(flowable: Flowable<T>, observer: Observer<T>, collectAll: Boolean = false) {
+        model.init(flowable, collectAll)
         observeLiveData(lifeCycleOwner, observer)
     }
 
@@ -100,62 +98,63 @@ open class RxViewModelTask private constructor(
      * Please be careful if you wanna collect a lot of data to avoid UI freezes. Recommended to disable this option
      */
     @JvmOverloads
-    fun <T> restart(flowable: Flowable<T>, observer: Observer<T>, collectAll: Boolean = false) {
-        mModel.restart(flowable, collectAll)
+    fun <T : Any> restart(flowable: Flowable<T>, observer: Observer<T>, collectAll: Boolean = false) {
+        model.restart(flowable, collectAll)
         observeLiveData(lifeCycleOwner, observer)
     }
     /* Flowable region end*/
 
     /* Maybe region start*/
-    fun <T> init(maybe: Maybe<T>, observer: MaybeObserver<T>) {
-        mModel.init(maybe)
+    fun <T : Any> init(maybe: Maybe<T>, observer: MaybeObserver<T>) {
+        model.init(maybe)
         observeLiveData(lifeCycleOwner, observer)
     }
 
-    fun <T> restart(maybe: Maybe<T>, observer: MaybeObserver<T>) {
-        mModel.restart(maybe)
+    fun <T : Any> restart(maybe: Maybe<T>, observer: MaybeObserver<T>) {
+        model.restart(maybe)
         observeLiveData(lifeCycleOwner, observer)
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun <T> observeLiveData(owner: LifecycleOwner?, observer: MaybeObserver<T>) {
-        if (owner == null) {
-            return
+        owner?.let { own ->
+            model.liveData?.observe(own, androidx.lifecycle.Observer {
+                when {
+                    it!!.error != null -> observer.onError(it.error!!)
+                    it.result != null -> observer.onSuccess(it.result as T)
+                    else -> observer.onComplete()
+                }
+            })
         }
-
-        mModel.liveData!!.observe(owner, android.arch.lifecycle.Observer<RxResult<T>> {
-            when {
-                it!!.error != null -> observer.onError(it.error!!)
-                it.result != null -> observer.onSuccess(it.result)
-                else -> observer.onComplete()
-            }
-        })
     }
     /* Maybe region end*/
 
     /* Completable region start*/
     fun init(completable: Completable, observer: CompletableObserver) {
-        mModel.init(completable)
+        model.init(completable)
         observeLiveData(lifeCycleOwner, observer)
     }
 
     fun restart(completable: Completable, observer: CompletableObserver) {
-        mModel.restart(completable)
+        model.restart(completable)
         observeLiveData(lifeCycleOwner, observer)
     }
 
     @Suppress("UNCHECKED_CAST")
     private fun observeLiveData(owner: LifecycleOwner?, observer: CompletableObserver) {
-        if (owner == null) {
-            return
+        owner?.let { own ->
+            model.liveData?.observe(own, androidx.lifecycle.Observer {
+                when {
+                    it!!.error != null -> observer.onError(it.error!!)
+                    else -> observer.onComplete()
+                }
+            })
         }
-
-        mModel.liveData!!.observe(owner, android.arch.lifecycle.Observer<RxResult<Any>> {
-            when {
-                it!!.error != null -> observer.onError(it.error!!)
-                else -> observer.onComplete()
-            }
-        })
     }
     /* Completable region end*/
+
+    fun stop() {
+        model.stop()
+    }
 }
 

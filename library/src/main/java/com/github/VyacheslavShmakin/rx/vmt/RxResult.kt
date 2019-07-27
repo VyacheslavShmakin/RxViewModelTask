@@ -4,7 +4,7 @@ package com.github.VyacheslavShmakin.rx.vmt
  * RxResult
  *
  * @author Vyacheslav Shmakin
- * @version 30.09.2018
+ * @version 26.07.2019
  */
 open class RxResult<T> private constructor(
         val result: T?,
