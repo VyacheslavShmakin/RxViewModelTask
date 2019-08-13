@@ -40,8 +40,8 @@ open class RxBaseTask(owner: ViewModelStoreOwner, taskId: String) {
         return when {
             ref?.get() == null -> throw NullPointerException("ViewModelStoreOwner should be defined!")
             TextUtils.isEmpty(taskId) -> throw IllegalStateException("TaskId should be defined as non-null and non-empty value!")
-            ref.get() is Fragment -> ViewModelProviders.of(ref.get() as Fragment).get(RxViewModel::class.java)
-            ref.get() is FragmentActivity -> ViewModelProviders.of(ref.get() as FragmentActivity).get(RxViewModel::class.java)
+            ref.get() is Fragment -> ViewModelProviders.of(ref.get() as Fragment).get(taskId, RxViewModel::class.java)
+            ref.get() is FragmentActivity -> ViewModelProviders.of(ref.get() as FragmentActivity).get(taskId, RxViewModel::class.java)
             else -> throw IllegalStateException("Owner should be defined as Fragment or FragmentActivity")
         }
     }

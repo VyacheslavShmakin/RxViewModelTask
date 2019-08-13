@@ -1,5 +1,12 @@
 Change Log
 ==========
+## Version 1.3.1
+
+_2019-08-13_
+
+* Fixed multiple tasks execution in single LifecycleOwner instance;
+
+
 ## Version 1.3.0
 
 _2019-07-27_
